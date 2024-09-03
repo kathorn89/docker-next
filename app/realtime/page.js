@@ -92,9 +92,17 @@ export default function Page() {
         url: `${GRAFANA_DASHBOARD_URL}&refresh=5s&from=now-1h&to=now&panelId=25`,
         id: "err2",
       },
+    ],
+    row8: [
       {
         url: `${GRAFANA_DASHBOARD_URL}&refresh=5s&from=now-1h&to=now&panelId=27`,
         id: "err3",
+      },
+    ],
+    row9: [
+      {
+        url: `${GRAFANA_DASHBOARD_URL}&refresh=5s&from=now-1h&to=now&panelId=52`,
+        id: "hit1",
       },
     ],
   };
@@ -133,6 +141,11 @@ export default function Page() {
             ))}
           </div>
           <div className="grid gap-3 auto-cols-auto">
+            {panel.row9.map(({ url, id }) => (
+              <MyIframe key={id} src={url} id={id} width="100%" height="400" />
+            ))}
+          </div>
+          <div className="grid gap-3 auto-cols-auto">
             {panel.row4.map(({ url, id }) => (
               <MyIframe key={id} src={url} id={id} width="100%" height="400" />
             ))}
@@ -167,6 +180,17 @@ export default function Page() {
                     id={id}
                     width="100%"
                     height="200"
+                  />
+                ))}
+              </div>
+              <div className="grid grid-cols-1 gap-3">
+                {panel.row8.map(({ url, id }) => (
+                  <MyIframe
+                    key={id}
+                    src={url}
+                    id={id}
+                    width="100%"
+                    height="400"
                   />
                 ))}
               </div>

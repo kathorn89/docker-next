@@ -114,6 +114,12 @@ export default function Page() {
         id: "err3",
       },
     ],
+    row9: [
+      {
+        url: `${GRAFANA_DASHBOARD_URL}&refresh=5s&from=${timeRange[0]}&to=${timeRange[1]}&panelId=52`,
+        id: "hit1",
+      },
+    ],
   };
 
   const handleApplyTimeRange = (unixRange) => {
@@ -195,6 +201,17 @@ export default function Page() {
                   id={id}
                   width="100%"
                   height="250"
+                />
+              ))}
+            </div>
+            <div className="grid gap-3 auto-cols-auto">
+              {panel.row9.map(({ url, id }) => (
+                <MyIframe
+                  key={id}
+                  src={url}
+                  id={id}
+                  width="100%"
+                  height="400"
                 />
               ))}
             </div>
