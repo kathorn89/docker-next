@@ -4,7 +4,7 @@ import { SyncOutlined } from "@ant-design/icons";
 
 export default function Page() {
   const GRAFANA_DASHBOARD_URL =
-    "http://54.179.170.42:3777/d-solo/adu68f1hmk1s0h9/apache-jmeter-dashboard-v3?orgId=1";
+    "http://localhost:3777/d-solo/adu68f1hmk1s0h9/apache-jmeter-dashboard-v3?orgId=1";
 
   const panel = {
     row1: [
@@ -25,7 +25,7 @@ export default function Page() {
         id: "req4",
       },
       {
-        url: `${GRAFANA_DASHBOARD_URL}&refresh=5s&from=now-1h&to=now&panelId=45`,
+        url: `${GRAFANA_DASHBOARD_URL}&refresh=5s&from=now-1h&to=now&panelId=55`,
         id: "req5",
       },
       {
@@ -71,14 +71,24 @@ export default function Page() {
     ],
     row4: [
       {
-        url: `${GRAFANA_DASHBOARD_URL}&refresh=5s&from=now-1h&to=now&panelId=23`,
-        id: "req14",
+        url: `${GRAFANA_DASHBOARD_URL}&refresh=5s&from=now-1h&to=now&panelId=54`,
+        id: "rqps1",
       },
-    ],
-    row5: [
+      {
+        url: `${GRAFANA_DASHBOARD_URL}&refresh=5s&from=now-1h&to=now&panelId=52`,
+        id: "hitsps",
+      },
+      {
+        url: `${GRAFANA_DASHBOARD_URL}&refresh=5s&from=now-1h&to=now&panelId=23`,
+        id: "avgrsp",
+      },
+      {
+        url: `${GRAFANA_DASHBOARD_URL}&refresh=5s&from=now-1h&to=now&panelId=53`,
+        id: "pct95",
+      },
       {
         url: `${GRAFANA_DASHBOARD_URL}&refresh=5s&from=now-1h&to=now&panelId=36`,
-        id: "req15",
+        id: "network",
       },
     ],
     row6: [
@@ -97,12 +107,6 @@ export default function Page() {
       {
         url: `${GRAFANA_DASHBOARD_URL}&refresh=5s&from=now-1h&to=now&panelId=27`,
         id: "err3",
-      },
-    ],
-    row9: [
-      {
-        url: `${GRAFANA_DASHBOARD_URL}&refresh=5s&from=now-1h&to=now&panelId=52`,
-        id: "hit1",
       },
     ],
   };
@@ -140,18 +144,9 @@ export default function Page() {
               <MyIframe key={id} src={url} id={id} width="100%" height="250" />
             ))}
           </div>
-          <div className="grid gap-3 auto-cols-auto">
-            {panel.row9.map(({ url, id }) => (
-              <MyIframe key={id} src={url} id={id} width="100%" height="400" />
-            ))}
-          </div>
+
           <div className="grid gap-3 auto-cols-auto">
             {panel.row4.map(({ url, id }) => (
-              <MyIframe key={id} src={url} id={id} width="100%" height="400" />
-            ))}
-          </div>
-          <div className="grid gap-3 auto-cols-auto">
-            {panel.row5.map(({ url, id }) => (
               <MyIframe key={id} src={url} id={id} width="100%" height="400" />
             ))}
           </div>

@@ -17,7 +17,7 @@ export default function Page() {
   const [timeRange, setTimeRange] = useState(defaultRange); // Initialize state with default range
 
   const GRAFANA_DASHBOARD_URL =
-    "http://54.179.170.42:3777/d-solo/adu68f1hmk1s0h9/apache-jmeter-dashboard-v3?orgId=1";
+    "http://localhost:3777/d-solo/adu68f1hmk1s0h9/apache-jmeter-dashboard-v3?orgId=1";
 
   const panel = {
     row1: [
@@ -38,7 +38,7 @@ export default function Page() {
         id: "req4",
       },
       {
-        url: `${GRAFANA_DASHBOARD_URL}&refresh=5s&from=${timeRange[0]}&to=${timeRange[1]}&panelId=45`,
+        url: `${GRAFANA_DASHBOARD_URL}&refresh=5s&from=${timeRange[0]}&to=${timeRange[1]}&panelId=55`,
         id: "req5",
       },
       {
@@ -46,7 +46,7 @@ export default function Page() {
         id: "err5",
       },
     ],
-    row21: [
+    row2: [
       {
         url: `${GRAFANA_DASHBOARD_URL}&refresh=5s&from=${timeRange[0]}&to=${timeRange[1]}&panelId=38`,
         id: "req6",
@@ -59,8 +59,6 @@ export default function Page() {
         url: `${GRAFANA_DASHBOARD_URL}&refresh=5s&from=${timeRange[0]}&to=${timeRange[1]}&panelId=49`,
         id: "req8",
       },
-    ],
-    row22: [
       {
         url: `${GRAFANA_DASHBOARD_URL}&refresh=5s&from=${timeRange[0]}&to=${timeRange[1]}&panelId=43`,
         id: "req9",
@@ -86,14 +84,24 @@ export default function Page() {
     ],
     row4: [
       {
-        url: `${GRAFANA_DASHBOARD_URL}&refresh=5s&from=${timeRange[0]}&to=${timeRange[1]}&panelId=23`,
-        id: "req14",
+        url: `${GRAFANA_DASHBOARD_URL}&refresh=5s&from=${timeRange[0]}&to=${timeRange[1]}&panelId=54`,
+        id: "rqps1",
       },
-    ],
-    row5: [
+      {
+        url: `${GRAFANA_DASHBOARD_URL}&refresh=5s&from=${timeRange[0]}&to=${timeRange[1]}&panelId=52`,
+        id: "hitsps",
+      },
+      {
+        url: `${GRAFANA_DASHBOARD_URL}&refresh=5s&from=${timeRange[0]}&to=${timeRange[1]}&panelId=23`,
+        id: "avgrsp",
+      },
+      {
+        url: `${GRAFANA_DASHBOARD_URL}&refresh=5s&from=${timeRange[0]}&to=${timeRange[1]}&panelId=53`,
+        id: "pct95",
+      },
       {
         url: `${GRAFANA_DASHBOARD_URL}&refresh=5s&from=${timeRange[0]}&to=${timeRange[1]}&panelId=36`,
-        id: "req15",
+        id: "network",
       },
     ],
     row6: [
@@ -114,12 +122,6 @@ export default function Page() {
         id: "err3",
       },
     ],
-    row9: [
-      {
-        url: `${GRAFANA_DASHBOARD_URL}&refresh=5s&from=${timeRange[0]}&to=${timeRange[1]}&panelId=52`,
-        id: "hit1",
-      },
-    ],
   };
 
   const handleApplyTimeRange = (unixRange) => {
@@ -136,7 +138,7 @@ export default function Page() {
           </div>
 
           <div className="grid grid-flow-row-dense gap-3 grid-flow-cols">
-            <div className="grid gap-3 lg:grid-cols-6 md:grid-cols-3">
+            <div className="grid grid-cols-6 gap-3">
               {panel.row1.map(({ url, id }) => (
                 <MyIframe
                   key={id}
@@ -148,17 +150,8 @@ export default function Page() {
               ))}
             </div>
 
-            <div className="grid grid-cols-5 gap-3 ">
-              {panel.row21.map(({ url, id }) => (
-                <MyIframe
-                  key={id}
-                  src={url}
-                  id={id}
-                  width="100%"
-                  height="200"
-                />
-              ))}
-              {panel.row22.map(({ url, id }) => (
+            <div className="grid grid-cols-5 gap-3">
+              {panel.row2.map(({ url, id }) => (
                 <MyIframe
                   key={id}
                   src={url}
@@ -168,31 +161,6 @@ export default function Page() {
                 />
               ))}
             </div>
-
-            {/* <div className="grid grid-cols-2 gap-3 grid-row-1">
-            <div className="grid grid-cols-1 gap-3 grid-row-3 ">
-              {panel.row21.map(({ url, id }) => (
-                <MyIframe
-                  key={id}
-                  src={url}
-                  id={id}
-                  width="100%"
-                  height="100"
-                />
-              ))}
-            </div>
-            <div className="grid grid-cols-2 gap-3 grid-row-3 ">
-              {panel.row22.map(({ url, id }) => (
-                <MyIframe
-                  key={id}
-                  src={url}
-                  id={id}
-                  width="100%"
-                  height="100%"
-                />
-              ))}
-            </div>
-          </div> */}
             <div className="grid grid-cols-3 gap-3">
               {panel.row3.map(({ url, id }) => (
                 <MyIframe
@@ -205,29 +173,7 @@ export default function Page() {
               ))}
             </div>
             <div className="grid gap-3 auto-cols-auto">
-              {panel.row9.map(({ url, id }) => (
-                <MyIframe
-                  key={id}
-                  src={url}
-                  id={id}
-                  width="100%"
-                  height="400"
-                />
-              ))}
-            </div>
-            <div className="grid gap-3 auto-cols-auto">
               {panel.row4.map(({ url, id }) => (
-                <MyIframe
-                  key={id}
-                  src={url}
-                  id={id}
-                  width="100%"
-                  height="400"
-                />
-              ))}
-            </div>
-            <div className="grid gap-3 auto-cols-auto">
-              {panel.row5.map(({ url, id }) => (
                 <MyIframe
                   key={id}
                   src={url}

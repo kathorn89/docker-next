@@ -398,44 +398,81 @@
           "resultFormat": "time_series"
         }
       ],
-      "title": "Request/s",
+      "title": "Requests/s",
       "type": "stat"
     },
     {
       "datasource": {
-        "type": "influxdb",
-        "uid": "P951FEA4DE68E13C5"
+        "uid": "$data_source"
       },
-      "description": "",
       "fieldConfig": {
         "defaults": {
           "color": {
             "mode": "thresholds"
           },
-          "decimals": 2,
-          "mappings": [
-            {
-              "options": {
-                "match": "null",
-                "result": {
-                  "text": "N/A"
-                }
-              },
-              "type": "special"
-            }
-          ],
+          "mappings": [],
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
-                "color": "#9B51E0",
+                "color": "#219653",
                 "value": null
+              },
+              {
+                "color": "#FA374A",
+                "value": 80
               }
             ]
           },
-          "unit": "reqps"
+          "unit": "short"
         },
-        "overrides": []
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "No of Errors"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#56ccf2",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Req / s"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#56ccf2",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Req / sec"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#56ccf2",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
       },
       "gridPos": {
         "h": 5,
@@ -443,13 +480,13 @@
         "x": 16,
         "y": 1
       },
-      "id": 45,
-      "maxDataPoints": 100,
+      "id": 55,
+      "interval": "[[send_interval]]s",
       "options": {
-        "colorMode": "none",
+        "colorMode": "value",
         "graphMode": "area",
         "justifyMode": "auto",
-        "orientation": "horizontal",
+        "orientation": "auto",
         "percentChangeColorMode": "standard",
         "reduceOptions": {
           "calcs": ["lastNotNull"],
@@ -463,48 +500,53 @@
       "pluginVersion": "11.1.4",
       "targets": [
         {
+          "alias": "Req / s",
           "datasource": {
-            "uid": "${DS_HSLABOR}"
+            "type": "influxdb",
+            "uid": "P951FEA4DE68E13C5"
           },
+          "dsType": "influxdb",
           "groupBy": [
             {
               "params": ["$__interval"],
               "type": "time"
-            },
-            {
-              "params": ["null"],
-              "type": "fill"
             }
           ],
-          "hide": false,
+          "measurement": "jmeter",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT mean(\"hit\") FROM \"$measurement_name\" WHERE (\"application\" =~ /^$application$/) AND $timeFilter  GROUP BY time($__interval) fill(null)",
+          "query": "SELECT mean(\"count\") / $send_interval FROM \"$measurement_name\" WHERE (\"transaction\" = 'all' AND \"application\" =~ /^$application$/) AND $timeFilter GROUP BY time($__interval) fill(null)",
           "rawQuery": true,
-          "refId": "A",
+          "refId": "B",
           "resultFormat": "time_series",
           "select": [
             [
               {
-                "params": ["value"],
+                "params": ["count"],
                 "type": "field"
               },
               {
                 "params": [],
-                "type": "mean"
+                "type": "last"
               }
             ]
           ],
           "tags": [
             {
-              "key": "hit::field",
+              "key": "transaction",
+              "operator": "=",
+              "value": "all"
+            },
+            {
+              "condition": "AND",
+              "key": "application",
               "operator": "=~",
-              "value": "/^$measurement_name$/"
+              "value": "/^$application$/"
             }
           ]
         }
       ],
-      "title": "Hits/s",
+      "title": "Total Throughput",
       "type": "stat"
     },
     {
@@ -1583,6 +1625,98 @@
             },
             "insertNulls": false,
             "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#9B51E0",
+                "value": null
+              }
+            ]
+          },
+          "unit": "reqps"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 21
+      },
+      "id": 54,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "11.1.4",
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "P951FEA4DE68E13C5"
+          },
+          "query": "SELECT mean(\"count\") FROM \"$measurement_name\" WHERE $timeFilter GROUP BY time($__interval) fill(null)",
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "time_series"
+        }
+      ],
+      "title": "Requests per Second",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "P951FEA4DE68E13C5"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic-by-name"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
             "lineStyle": {
               "fill": "solid"
             },
@@ -1630,7 +1764,7 @@
         "h": 8,
         "w": 24,
         "x": 0,
-        "y": 21
+        "y": 29
       },
       "id": 52,
       "maxDataPoints": 100,
@@ -1639,7 +1773,7 @@
           "calcs": [],
           "displayMode": "list",
           "placement": "bottom",
-          "showLegend": true
+          "showLegend": false
         },
         "tooltip": {
           "mode": "single",
@@ -1665,7 +1799,7 @@
           "hide": false,
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT mean(\"hit\") FROM \"$measurement_name\" WHERE (\"application\" =~ /^$application$/ AND \"transaction\" = 'all') AND $timeFilter  GROUP BY time($__interval) fill(null)",
+          "query": "SELECT mean(\"hit\") FROM \"$measurement_name\" WHERE (\"application\" =~ /^$application$/ AND \"transaction\" = 'all') AND $timeFilter  GROUP BY  time($__interval) fill(null)",
           "rawQuery": true,
           "refId": "A",
           "resultFormat": "time_series",
@@ -1691,6 +1825,158 @@
         }
       ],
       "title": "Hits per Second",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "$data_source"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "line+area"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#FA374A",
+                "value": null
+              },
+              {
+                "color": "transparent",
+                "value": 500
+              },
+              {
+                "color": "#FF6B00",
+                "value": 1500
+              },
+              {
+                "color": "#FA374A",
+                "value": 5000
+              }
+            ]
+          },
+          "unit": "ms"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "banner"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#508642",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 24,
+        "x": 0,
+        "y": 37
+      },
+      "id": 23,
+      "interval": "[[send_interval]]s",
+      "options": {
+        "legend": {
+          "calcs": ["min", "mean", "max"],
+          "displayMode": "table",
+          "placement": "right",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "repeatDirection": "h",
+      "targets": [
+        {
+          "alias": "$tag_transaction",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "P951FEA4DE68E13C5"
+          },
+          "dsType": "influxdb",
+          "groupBy": [
+            {
+              "params": ["transaction"],
+              "type": "tag"
+            }
+          ],
+          "measurement": "jmeter",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT mean(\"avg\") FROM \"$measurement_name\" WHERE (\"application\" =~ /^$application$/) AND $timeFilter GROUP BY \"transaction\", time($__interval) fill(null)",
+          "rawQuery": true,
+          "refId": "B",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": ["pct95.0"],
+                "type": "field"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "statut",
+              "operator": "=",
+              "value": "ok"
+            },
+            {
+              "condition": "AND",
+              "key": "application",
+              "operator": "=~",
+              "value": "/^$application$/"
+            }
+          ]
+        }
+      ],
+      "title": "Average Response Times",
       "type": "timeseries"
     },
     {
@@ -1780,13 +2066,13 @@
         "h": 7,
         "w": 24,
         "x": 0,
-        "y": 29
+        "y": 44
       },
-      "id": 23,
+      "id": 53,
       "interval": "[[send_interval]]s",
       "options": {
         "legend": {
-          "calcs": ["mean", "max"],
+          "calcs": ["min", "mean", "max"],
           "displayMode": "table",
           "placement": "right",
           "showLegend": true
@@ -1931,7 +2217,7 @@
         "h": 7,
         "w": 24,
         "x": 0,
-        "y": 36
+        "y": 51
       },
       "id": 36,
       "interval": "[[send_interval]]s",
@@ -2033,7 +2319,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 43
+        "y": 58
       },
       "id": 34,
       "panels": [],
@@ -2137,7 +2423,7 @@
         "h": 7,
         "w": 24,
         "x": 0,
-        "y": 44
+        "y": 59
       },
       "id": 39,
       "interval": "[[send_interval]]s",
@@ -2286,7 +2572,7 @@
         "h": 7,
         "w": 8,
         "x": 0,
-        "y": 51
+        "y": 66
       },
       "id": 25,
       "interval": "[[send_interval]]s",
@@ -2417,7 +2703,7 @@
         "h": 7,
         "w": 16,
         "x": 8,
-        "y": 51
+        "y": 66
       },
       "id": 27,
       "interval": "[[send_interval]]s",
@@ -2503,7 +2789,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 58
+        "y": 73
       },
       "id": 35,
       "panels": [],
@@ -2558,7 +2844,7 @@
         "h": 7,
         "w": 8,
         "x": 0,
-        "y": 59
+        "y": 74
       },
       "id": 9,
       "interval": "[[send_interval]]s",
@@ -2672,7 +2958,7 @@
         "h": 7,
         "w": 8,
         "x": 8,
-        "y": 59
+        "y": 74
       },
       "id": 6,
       "interval": "[[send_interval]]s",
@@ -2793,7 +3079,7 @@
         "h": 7,
         "w": 8,
         "x": 16,
-        "y": 59
+        "y": 74
       },
       "id": 8,
       "interval": "[[send_interval]]s",
@@ -3022,7 +3308,7 @@
         "h": 7,
         "w": 12,
         "x": 0,
-        "y": 66
+        "y": 81
       },
       "id": 10,
       "interval": "[[send_interval]]s",
@@ -3188,7 +3474,7 @@
         "h": 7,
         "w": 12,
         "x": 12,
-        "y": 66
+        "y": 81
       },
       "id": 32,
       "interval": "[[send_interval]]s",
@@ -3443,7 +3729,7 @@
         "h": 7,
         "w": 24,
         "x": 0,
-        "y": 73
+        "y": 88
       },
       "id": 5,
       "interval": "[[send_interval]]s",
