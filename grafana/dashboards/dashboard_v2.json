@@ -716,7 +716,7 @@
           "tags": []
         }
       ],
-      "title": "Received Bytes",
+      "title": "Total Received Bytes",
       "type": "stat"
     },
     {
@@ -774,13 +774,13 @@
             "type": "influxdb",
             "uid": "P951FEA4DE68E13C5"
           },
-          "query": "SELECT count(\"rb\")/360 FROM \"$measurement_name\" WHERE (\"transaction\" = 'all' AND \"application\" =~ /^$application$/) AND $timeFilter ",
+          "query": "SELECT count(\"sb\")/360 FROM \"$measurement_name\" WHERE (\"transaction\" = 'all' AND \"application\" =~ /^$application$/) AND $timeFilter ",
           "rawQuery": true,
           "refId": "A",
           "resultFormat": "time_series"
         }
       ],
-      "title": "Bytes/s",
+      "title": "Send Bytes/s",
       "type": "stat"
     },
     {
@@ -1052,7 +1052,7 @@
           "tags": []
         }
       ],
-      "title": "Sent Bytes",
+      "title": "Total Sent Bytes",
       "type": "stat"
     },
     {
@@ -1777,7 +1777,7 @@
           ]
         }
       ],
-      "title": "Bytes per Second",
+      "title": "Send Bytes per Second",
       "type": "timeseries"
     },
     {
@@ -2556,42 +2556,6 @@
             [
               {
                 "params": ["sb"],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "mean"
-              }
-            ]
-          ],
-          "tags": []
-        },
-        {
-          "alias": "$tag_transaction",
-          "datasource": {
-            "type": "influxdb",
-            "uid": "P951FEA4DE68E13C5"
-          },
-          "groupBy": [
-            {
-              "params": ["$__interval"],
-              "type": "time"
-            },
-            {
-              "params": ["null"],
-              "type": "fill"
-            }
-          ],
-          "orderByTime": "ASC",
-          "policy": "default",
-          "query": "SELECT sum(\"countError\") FROM \"$measurement_name\" WHERE (\"transaction\" = 'all' AND \"application\" =~ /^$application$/) AND $timeFilter GROUP BY time($__interval) fill(null)",
-          "rawQuery": true,
-          "refId": "B",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": ["value"],
                 "type": "field"
               },
               {
@@ -4130,14 +4094,14 @@
       "type": "timeseries"
     }
   ],
-  "refresh": "auto",
+  "refresh": "5s",
   "schemaVersion": 39,
   "tags": ["load_test"],
   "templating": {
     "list": [
       {
         "current": {
-          "selected": false,
+          "selected": true,
           "text": "InfluxDB",
           "value": "P951FEA4DE68E13C5"
         },
@@ -4148,6 +4112,7 @@
         "name": "data_source",
         "options": [],
         "query": "influxdb",
+        "queryValue": "",
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
@@ -4242,6 +4207,6 @@
   "timezone": "browser",
   "title": "Apache JMeter Dashboard v3",
   "uid": "adu68f1hmk1s0h9",
-  "version": 18,
+  "version": 27,
   "weekStart": ""
 }

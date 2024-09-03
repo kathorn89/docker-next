@@ -22,10 +22,6 @@ export default function Page() {
   const panel = {
     row1: [
       {
-        url: `${GRAFANA_DASHBOARD_URL}&refresh=5s&from=${timeRange[0]}&to=${timeRange[1]}&panelId=51`,
-        id: "req1",
-      },
-      {
         url: `${GRAFANA_DASHBOARD_URL}&refresh=5s&from=${timeRange[0]}&to=${timeRange[1]}&panelId=26`,
         id: "req2",
       },
@@ -39,7 +35,7 @@ export default function Page() {
       },
       {
         url: `${GRAFANA_DASHBOARD_URL}&refresh=5s&from=${timeRange[0]}&to=${timeRange[1]}&panelId=58`,
-        id: "req5",
+        id: "req4",
       },
       {
         url: `${GRAFANA_DASHBOARD_URL}&refresh=5s&from=${timeRange[0]}&to=${timeRange[1]}&panelId=50`,
@@ -73,10 +69,6 @@ export default function Page() {
         url: `${GRAFANA_DASHBOARD_URL}&refresh=5s&from=${timeRange[0]}&to=${timeRange[1]}&panelId=2`,
         id: "req12",
       },
-      {
-        url: `${GRAFANA_DASHBOARD_URL}&refresh=5s&from=${timeRange[0]}&to=${timeRange[1]}&panelId=31`,
-        id: "req13",
-      },
     ],
     row4: [
       {
@@ -87,19 +79,14 @@ export default function Page() {
         url: `${GRAFANA_DASHBOARD_URL}&refresh=5s&from=${timeRange[0]}&to=${timeRange[1]}&panelId=52`,
         id: "byteps",
       },
+    ],
+    row5: [
       {
         url: `${GRAFANA_DASHBOARD_URL}&refresh=5s&from=${timeRange[0]}&to=${timeRange[1]}&panelId=23`,
         id: "avgrsp",
       },
-      {
-        url: `${GRAFANA_DASHBOARD_URL}&refresh=5s&from=${timeRange[0]}&to=${timeRange[1]}&panelId=53`,
-        id: "pct95",
-      },
-      {
-        url: `${GRAFANA_DASHBOARD_URL}&refresh=5s&from=${timeRange[0]}&to=${timeRange[1]}&panelId=36`,
-        id: "network",
-      },
     ],
+
     row6: [
       {
         url: `${GRAFANA_DASHBOARD_URL}&refresh=5s&from=${timeRange[0]}&to=${timeRange[1]}&panelId=39`,
@@ -134,7 +121,7 @@ export default function Page() {
           </div>
 
           <div className="grid grid-flow-row-dense gap-3 grid-flow-cols">
-            <div className="grid grid-cols-6 gap-3">
+            <div className="grid grid-cols-5 gap-3">
               {panel.row1.map(({ url, id }) => (
                 <MyIframe
                   key={id}
@@ -157,7 +144,7 @@ export default function Page() {
                 />
               ))}
             </div>
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 gap-3">
               {panel.row3.map(({ url, id }) => (
                 <MyIframe
                   key={id}
@@ -168,8 +155,19 @@ export default function Page() {
                 />
               ))}
             </div>
-            <div className="grid gap-3 auto-cols-auto">
+            <div className="grid grid-cols-2 gap-3">
               {panel.row4.map(({ url, id }) => (
+                <MyIframe
+                  key={id}
+                  src={url}
+                  id={id}
+                  width="100%"
+                  height="350"
+                />
+              ))}
+            </div>
+            <div className="grid gap-3 auto-cols-auto">
+              {panel.row5.map(({ url, id }) => (
                 <MyIframe
                   key={id}
                   src={url}
