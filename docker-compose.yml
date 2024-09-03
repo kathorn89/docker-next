@@ -1,0 +1,51 @@
+version: "3.8"
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: docker-next
+    ports:
+      - "3778:3000"
+    volumes:
+      - .:/app
+      - node_modules:/app/node_modules
+
+  influxdb:
+    image: influxdb:1.8.10
+    container_name: influxdb
+    ports:
+      - "8777:8086"
+    environment:
+      - INFLUXDB_DB=Integrate_jmeter
+      - INFLUXDB_ADMIN_USER=admin
+      - INFLUXDB_ADMIN_PASSWORD=admin_password
+      - INFLUXDB_USER=jmeter
+      - INFLUXDB_USER_PASSWORD=jmeter_password
+    volumes:
+      - influxdb-data:/var/lib/influxdb
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - "3777:3000"
+    depends_on:
+      - influxdb
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin_password
+      - GF_USERS_ALLOW_SIGN_UP=false
+      - GF_PATHS_CONFIG=/etc/grafana/grafana.ini
+      - GF_SECURITY_ALLOW_EMBEDDING=true
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning
+      - ./grafana/dashboards:/var/lib/grafana/dashboards
+      - ./grafana/config/grafana.ini:/etc/grafana/grafana.ini
+
+volumes:
+  influxdb-data:
+  grafana-data:
+  node_modules:

@@ -1,16 +1,11 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import dynamic from "next/dynamic";
 import moment from "moment";
-// import MyIframe from "../components/MyIframe";
-const MyIframe = dynamic(() => import("../components/MyIframe"));
-
-const QuickRangesDropdown = dynamic(
-  () => import("../components/QuickRangesDropdown"),
-  {
-    ssr: false,
-  }
-);
+import MyIframe from "./MyIframe";
+const QuickRangesDropdown = dynamic(() => import("./QuickRangesDropdown"), {
+  ssr: false,
+});
 
 export default function Page() {
   // Set default range to "Last 1 hour"
@@ -51,7 +46,7 @@ export default function Page() {
         id: "err5",
       },
     ],
-    row2: [
+    row21: [
       {
         url: `${GRAFANA_DASHBOARD_URL}&refresh=5s&from=${timeRange[0]}&to=${timeRange[1]}&panelId=38`,
         id: "req6",
@@ -64,6 +59,8 @@ export default function Page() {
         url: `${GRAFANA_DASHBOARD_URL}&refresh=5s&from=${timeRange[0]}&to=${timeRange[1]}&panelId=49`,
         id: "req8",
       },
+    ],
+    row22: [
       {
         url: `${GRAFANA_DASHBOARD_URL}&refresh=5s&from=${timeRange[0]}&to=${timeRange[1]}&panelId=43`,
         id: "req9",
@@ -123,26 +120,9 @@ export default function Page() {
     setTimeRange(unixRange);
   };
 
-  // useEffect(() => {
-  //   const timeoutId = setTimeout(() => {
-  //     const intervalId = setInterval(() => {
-  //       setTimeRange([
-  //         moment().subtract(1, "hour").valueOf(),
-  //         moment().valueOf(),
-  //       ]);
-  //     }, 60000); // Refresh interval in milliseconds (60 seconds)
-
-  //     // Cleanup interval on component unmount
-  //     return () => clearInterval(intervalId);
-  //   }, 80000);
-
-  //   // Cleanup timeout on component unmount
-  //   return () => clearTimeout(timeoutId);
-  // }, []);
-
   return (
     <>
-      <main className="flex flex-col items-center justify-between w-full h-screen px-6 z-1 py-14">
+      <main className="flex flex-col items-center justify-between w-full h-screen px-0 py-14">
         <div className="flex flex-col gap-3 px-2 py-4 pb-8">
           <div className="flex flex-row items-center justify-between">
             <h1 className={`text-3xl font-bold text-navy`}>Summary</h1>
@@ -150,7 +130,7 @@ export default function Page() {
           </div>
 
           <div className="grid grid-flow-row-dense gap-3 grid-flow-cols">
-            <div className="grid grid-cols-6 gap-3">
+            <div className="grid gap-3 lg:grid-cols-6 md:grid-cols-3">
               {panel.row1.map(({ url, id }) => (
                 <MyIframe
                   key={id}
@@ -162,8 +142,17 @@ export default function Page() {
               ))}
             </div>
 
-            <div className="grid grid-cols-5 gap-3">
-              {panel.row2.map(({ url, id }) => (
+            <div className="grid grid-cols-5 gap-3 ">
+              {panel.row21.map(({ url, id }) => (
+                <MyIframe
+                  key={id}
+                  src={url}
+                  id={id}
+                  width="100%"
+                  height="200"
+                />
+              ))}
+              {panel.row22.map(({ url, id }) => (
                 <MyIframe
                   key={id}
                   src={url}
@@ -173,6 +162,31 @@ export default function Page() {
                 />
               ))}
             </div>
+
+            {/* <div className="grid grid-cols-2 gap-3 grid-row-1">
+            <div className="grid grid-cols-1 gap-3 grid-row-3 ">
+              {panel.row21.map(({ url, id }) => (
+                <MyIframe
+                  key={id}
+                  src={url}
+                  id={id}
+                  width="100%"
+                  height="100"
+                />
+              ))}
+            </div>
+            <div className="grid grid-cols-2 gap-3 grid-row-3 ">
+              {panel.row22.map(({ url, id }) => (
+                <MyIframe
+                  key={id}
+                  src={url}
+                  id={id}
+                  width="100%"
+                  height="100%"
+                />
+              ))}
+            </div>
+          </div> */}
             <div className="grid grid-cols-3 gap-3">
               {panel.row3.map(({ url, id }) => (
                 <MyIframe
@@ -235,6 +249,7 @@ export default function Page() {
                   />
                 ))}
               </div>
+
               <div className="grid grid-cols-1 gap-3">
                 {panel.row8.map(({ url, id }) => (
                   <MyIframe
