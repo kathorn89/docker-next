@@ -46,3 +46,19 @@ docker run -it --rm -p 3000:3000 --network my-custom-network --name my-app -v /à
 
 docker-compose up
 ```
+
+### Start EC2
+
+```bash
+sudo -u ec2-user git clone https://github.com/kathorn49/docker-next.git /home/ec2-user/app
+
+cd /home/ec2-user/app
+
+sudo -u ec2-user docker compose up -d
+
+sudo -u ec2-user docker compose down
+
+cd /home/ec2-user
+
+rm -rf app
+```
