@@ -55,6 +55,7 @@
     },
     {
       "datasource": {
+        "type": "influxdb",
         "uid": "$data_source"
       },
       "fieldConfig": {
@@ -68,7 +69,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "#2f80ed",
+                "color": "#9B51e0",
                 "value": null
               }
             ]
@@ -121,7 +122,7 @@
           ],
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT last(\"maxAT\") FROM \"$measurement_name\" WHERE (\"transaction\" = 'internal' AND \"application\" =~ /^$application$/) AND $timeFilter GROUP BY time($__interval) fill(null)",
+          "query": "SELECT last(\"maxAT\") FROM \"$measurement_name\" WHERE  (\"transaction\" = 'internal' AND \"application\" =~ /^$application$/) AND $timeFilter GROUP BY time($__interval) fill(null)",
           "rawQuery": true,
           "refId": "A",
           "resultFormat": "time_series",
@@ -436,7 +437,7 @@
               {
                 "id": "color",
                 "value": {
-                  "fixedColor": "#56ccf2",
+                  "fixedColor": "#6ED0E0",
                   "mode": "fixed"
                 }
               }
@@ -451,7 +452,7 @@
               {
                 "id": "color",
                 "value": {
-                  "fixedColor": "#56ccf2",
+                  "fixedColor": "#6ed0e0",
                   "mode": "fixed"
                 }
               }
@@ -643,7 +644,7 @@
           ],
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT sum(\"count\") AS \"Count\"\nFROM \"$measurement_name\"\nWHERE (\"application\" =~ /^$application$/ AND \"responseCode\" !~ /^$/)\nAND $timeFilter\nGROUP BY time($__interval)\nfill(null)\n",
+          "query": "SELECT sum(\"countError\") FROM \"$measurement_name\" WHERE (\"transaction\" = 'all' AND \"application\" =~ /^$application$/ ) AND $timeFilter",
           "rawQuery": true,
           "refId": "A",
           "resultFormat": "time_series",
@@ -801,7 +802,7 @@
       "id": 49,
       "options": {
         "colorMode": "value",
-        "graphMode": "area",
+        "graphMode": "none",
         "justifyMode": "auto",
         "orientation": "auto",
         "percentChangeColorMode": "standard",
@@ -1756,7 +1757,7 @@
               }
             ]
           },
-          "unit": "reqps"
+          "unit": "Bps"
         },
         "overrides": []
       },
@@ -1767,6 +1768,144 @@
         "y": 29
       },
       "id": 52,
+      "maxDataPoints": 100,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "11.1.4",
+      "targets": [
+        {
+          "datasource": {
+            "uid": "${DS_HSLABOR}"
+          },
+          "groupBy": [
+            {
+              "params": ["$__interval"],
+              "type": "time"
+            },
+            {
+              "params": ["null"],
+              "type": "fill"
+            }
+          ],
+          "hide": false,
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT count(\"rb\")/360 FROM \"$measurement_name\" WHERE (\"transaction\" = 'all' AND \"application\" =~ /^$application$/) AND $timeFilter GROUP BY time($__interval) fill(null)",
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": ["value"],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "hit::field",
+              "operator": "=~",
+              "value": "/^$measurement_name$/"
+            }
+          ]
+        }
+      ],
+      "title": "Bytes per Second",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "P951FEA4DE68E13C5"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic-by-name"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineStyle": {
+              "fill": "solid"
+            },
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "decimals": 2,
+          "mappings": [
+            {
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "N/A"
+                }
+              },
+              "type": "special"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#9B51E0",
+                "value": null
+              }
+            ]
+          },
+          "unit": "reqps"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 37
+      },
+      "id": 57,
       "maxDataPoints": 100,
       "options": {
         "legend": {
@@ -1915,7 +2054,7 @@
         "h": 7,
         "w": 24,
         "x": 0,
-        "y": 37
+        "y": 45
       },
       "id": 23,
       "interval": "[[send_interval]]s",
@@ -2066,7 +2205,7 @@
         "h": 7,
         "w": 24,
         "x": 0,
-        "y": 44
+        "y": 52
       },
       "id": 53,
       "interval": "[[send_interval]]s",
@@ -2217,7 +2356,7 @@
         "h": 7,
         "w": 24,
         "x": 0,
-        "y": 51
+        "y": 59
       },
       "id": 36,
       "interval": "[[send_interval]]s",
@@ -2319,7 +2458,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 58
+        "y": 66
       },
       "id": 34,
       "panels": [],
@@ -2423,7 +2562,7 @@
         "h": 7,
         "w": 24,
         "x": 0,
-        "y": 59
+        "y": 67
       },
       "id": 39,
       "interval": "[[send_interval]]s",
@@ -2572,7 +2711,7 @@
         "h": 7,
         "w": 8,
         "x": 0,
-        "y": 66
+        "y": 74
       },
       "id": 25,
       "interval": "[[send_interval]]s",
@@ -2703,7 +2842,7 @@
         "h": 7,
         "w": 16,
         "x": 8,
-        "y": 66
+        "y": 74
       },
       "id": 27,
       "interval": "[[send_interval]]s",
@@ -2789,7 +2928,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 73
+        "y": 81
       },
       "id": 35,
       "panels": [],
@@ -2844,7 +2983,7 @@
         "h": 7,
         "w": 8,
         "x": 0,
-        "y": 74
+        "y": 82
       },
       "id": 9,
       "interval": "[[send_interval]]s",
@@ -2958,7 +3097,7 @@
         "h": 7,
         "w": 8,
         "x": 8,
-        "y": 74
+        "y": 82
       },
       "id": 6,
       "interval": "[[send_interval]]s",
@@ -3079,7 +3218,7 @@
         "h": 7,
         "w": 8,
         "x": 16,
-        "y": 74
+        "y": 82
       },
       "id": 8,
       "interval": "[[send_interval]]s",
@@ -3308,7 +3447,7 @@
         "h": 7,
         "w": 12,
         "x": 0,
-        "y": 81
+        "y": 89
       },
       "id": 10,
       "interval": "[[send_interval]]s",
@@ -3474,7 +3613,7 @@
         "h": 7,
         "w": 12,
         "x": 12,
-        "y": 81
+        "y": 89
       },
       "id": 32,
       "interval": "[[send_interval]]s",
@@ -3729,7 +3868,7 @@
         "h": 7,
         "w": 24,
         "x": 0,
-        "y": 88
+        "y": 96
       },
       "id": 5,
       "interval": "[[send_interval]]s",
@@ -4039,6 +4178,7 @@
       "type": "timeseries"
     }
   ],
+  "refresh": "auto",
   "schemaVersion": 39,
   "tags": ["load_test"],
   "templating": {
@@ -4129,7 +4269,7 @@
     ]
   },
   "time": {
-    "from": "now-4d",
+    "from": "now-5m",
     "to": "now"
   },
   "timepicker": {
@@ -4150,6 +4290,6 @@
   "timezone": "browser",
   "title": "Apache JMeter Dashboard v3",
   "uid": "adu68f1hmk1s0h9",
-  "version": 15,
+  "version": 18,
   "weekStart": ""
 }

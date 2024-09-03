@@ -76,7 +76,7 @@ export default function Page() {
       },
       {
         url: `${GRAFANA_DASHBOARD_URL}&refresh=5s&from=now-1h&to=now&panelId=52`,
-        id: "hitsps",
+        id: "byteps",
       },
       {
         url: `${GRAFANA_DASHBOARD_URL}&refresh=5s&from=now-1h&to=now&panelId=23`,
