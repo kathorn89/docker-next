@@ -4,7 +4,7 @@ import { SyncOutlined } from "@ant-design/icons";
 
 export default function Page() {
   const GRAFANA_DASHBOARD_URL =
-    "http://localhost:3777/d-solo/adu68f1hmk1s0h9/apache-jmeter-dashboard-v3?orgId=1";
+    "http://54.179.170.42:3777/d-solo/adu68f1hmk1s0h9/apache-jmeter-dashboard-v3?orgId=1";
 
   const panel = {
     row1: [
