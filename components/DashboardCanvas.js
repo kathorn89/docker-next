@@ -17,7 +17,7 @@ export default function Page() {
   const [timeRange, setTimeRange] = useState(defaultRange); // Initialize state with default range
 
   const GRAFANA_DASHBOARD_URL =
-    "http://54.179.170.42:3777/d-solo/adu68f1hmk1s0h9/apache-jmeter-dashboard-v3?orgId=1";
+    "http://localhost:3777/d-solo/adu68f1hmk1s0h9/apache-jmeter-dashboard-v3?orgId=1";
 
   const panel = {
     row1: [
@@ -121,7 +121,7 @@ export default function Page() {
           </div>
 
           <div className="grid grid-flow-row-dense gap-3 grid-flow-cols">
-            <div className="grid grid-cols-5 gap-3">
+            <div className="grid gap-3 lg:grid-cols-5 md:grid-cols-2">
               {panel.row1.map(({ url, id }) => (
                 <MyIframe
                   key={id}
@@ -133,7 +133,7 @@ export default function Page() {
               ))}
             </div>
 
-            <div className="grid grid-cols-5 gap-3">
+            <div className="grid gap-3 lg:grid-cols-5 md:grid-cols-2">
               {panel.row2.map(({ url, id }) => (
                 <MyIframe
                   key={id}
@@ -144,7 +144,7 @@ export default function Page() {
                 />
               ))}
             </div>
-            <div className="grid grid-cols-1 gap-3">
+            <div className="grid gap-3 auto-cols-auto">
               {panel.row3.map(({ url, id }) => (
                 <MyIframe
                   key={id}
@@ -155,7 +155,7 @@ export default function Page() {
                 />
               ))}
             </div>
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid gap-3 lg:grid-cols-2 md:auto-cols-auto">
               {panel.row4.map(({ url, id }) => (
                 <MyIframe
                   key={id}
@@ -195,7 +195,7 @@ export default function Page() {
                 ))}
               </div>
 
-              <div className="grid grid-cols-1 gap-3">
+              <div className="grid gap-3 auto-cols-auto">
                 {panel.row7.map(({ url, id }) => (
                   <MyIframe
                     key={id}
@@ -207,7 +207,7 @@ export default function Page() {
                 ))}
               </div>
 
-              <div className="grid grid-cols-1 gap-3">
+              <div className="grid gap-3 auto-cols-auto">
                 {panel.row8.map(({ url, id }) => (
                   <MyIframe
                     key={id}
