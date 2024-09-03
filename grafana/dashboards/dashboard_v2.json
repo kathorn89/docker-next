@@ -404,6 +404,7 @@
     },
     {
       "datasource": {
+        "type": "influxdb",
         "uid": "$data_source"
       },
       "fieldConfig": {
@@ -416,58 +417,24 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "#219653",
+                "color": "#2d9cdb",
                 "value": null
-              },
-              {
-                "color": "#FA374A",
-                "value": 80
               }
             ]
           },
-          "unit": "short"
+          "unit": "ms"
         },
         "overrides": [
           {
             "matcher": {
               "id": "byName",
-              "options": "No of Errors"
+              "options": "banner"
             },
             "properties": [
               {
                 "id": "color",
                 "value": {
-                  "fixedColor": "#6ED0E0",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "Req / s"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "#6ed0e0",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "Req / sec"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "#56ccf2",
+                  "fixedColor": "#508642",
                   "mode": "fixed"
                 }
               }
@@ -481,7 +448,7 @@
         "x": 16,
         "y": 1
       },
-      "id": 55,
+      "id": 58,
       "interval": "[[send_interval]]s",
       "options": {
         "colorMode": "value",
@@ -499,9 +466,10 @@
         "wideLayout": true
       },
       "pluginVersion": "11.1.4",
+      "repeatDirection": "h",
       "targets": [
         {
-          "alias": "Req / s",
+          "alias": "$tag_transaction",
           "datasource": {
             "type": "influxdb",
             "uid": "P951FEA4DE68E13C5"
@@ -509,34 +477,30 @@
           "dsType": "influxdb",
           "groupBy": [
             {
-              "params": ["$__interval"],
-              "type": "time"
+              "params": ["transaction"],
+              "type": "tag"
             }
           ],
           "measurement": "jmeter",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT mean(\"count\") / $send_interval FROM \"$measurement_name\" WHERE (\"transaction\" = 'all' AND \"application\" =~ /^$application$/) AND $timeFilter GROUP BY time($__interval) fill(null)",
+          "query": "SELECT mean(\"avg\") FROM \"$measurement_name\" WHERE (\"application\" =~ /^$application$/) AND $timeFilter GROUP BY \"transaction\", time($__interval) fill(null)",
           "rawQuery": true,
           "refId": "B",
           "resultFormat": "time_series",
           "select": [
             [
               {
-                "params": ["count"],
+                "params": ["pct95.0"],
                 "type": "field"
-              },
-              {
-                "params": [],
-                "type": "last"
               }
             ]
           ],
           "tags": [
             {
-              "key": "transaction",
+              "key": "statut",
               "operator": "=",
-              "value": "all"
+              "value": "ok"
             },
             {
               "condition": "AND",
@@ -547,7 +511,7 @@
           ]
         }
       ],
-      "title": "Total Throughput",
+      "title": "Average Response Times",
       "type": "stat"
     },
     {

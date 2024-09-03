@@ -38,7 +38,7 @@ export default function Page() {
         id: "req4",
       },
       {
-        url: `${GRAFANA_DASHBOARD_URL}&refresh=5s&from=${timeRange[0]}&to=${timeRange[1]}&panelId=55`,
+        url: `${GRAFANA_DASHBOARD_URL}&refresh=5s&from=${timeRange[0]}&to=${timeRange[1]}&panelId=58`,
         id: "req5",
       },
       {
@@ -69,10 +69,6 @@ export default function Page() {
       },
     ],
     row3: [
-      {
-        url: `${GRAFANA_DASHBOARD_URL}&refresh=5s&from=${timeRange[0]}&to=${timeRange[1]}&panelId=4`,
-        id: "req11",
-      },
       {
         url: `${GRAFANA_DASHBOARD_URL}&refresh=5s&from=${timeRange[0]}&to=${timeRange[1]}&panelId=2`,
         id: "req12",
@@ -161,14 +157,14 @@ export default function Page() {
                 />
               ))}
             </div>
-            <div className="grid grid-cols-3 gap-3">
+            <div className="grid grid-cols-2 gap-3">
               {panel.row3.map(({ url, id }) => (
                 <MyIframe
                   key={id}
                   src={url}
                   id={id}
                   width="100%"
-                  height="250"
+                  height="300"
                 />
               ))}
             </div>
