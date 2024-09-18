@@ -1,4 +1,4 @@
-version: "3.8"
+# version: '3.8'
 
 services:
   app:
@@ -10,11 +10,11 @@ services:
       - "3778:3000"
     volumes:
       - .:/app
-      - node_modules:/app/node_modules
+      - /app/node_modules
 
-  influxdb:
+  influxdb_jmeter:
     image: influxdb:1.8.10
-    container_name: influxdb
+    container_name: influxdb_jmeter
     ports:
       - "8777:8086"
     environment:
@@ -24,7 +24,35 @@ services:
       - INFLUXDB_USER=jmeter
       - INFLUXDB_USER_PASSWORD=jmeter_password
     volumes:
-      - influxdb-data:/var/lib/influxdb
+      - influxdb-data-jmeter:/var/lib/influxdb
+
+  influxdb_jmeter_tcp:
+    image: influxdb:1.8.10
+    container_name: influxdb_jmeter_tcp
+    ports:
+      - "8778:8086"
+    environment:
+      - INFLUXDB_DB=Integrate_jmeter_tcp
+      - INFLUXDB_ADMIN_USER=admin_tcp
+      - INFLUXDB_ADMIN_PASSWORD=admin_password_tcp
+      - INFLUXDB_USER=jmeter_tcp
+      - INFLUXDB_USER_PASSWORD=jmeter_password_tcp
+    volumes:
+      - influxdb-data-jmeter-tcp:/var/lib/influxdb
+
+  influxdb_jmeter_hc:
+    image: influxdb:1.8.10
+    container_name: influxdb_jmeter_hc
+    ports:
+      - "8779:8086"
+    environment:
+      - INFLUXDB_DB=Integrate_jmeter_hc
+      - INFLUXDB_ADMIN_USER=admin_hc
+      - INFLUXDB_ADMIN_PASSWORD=admin_password_hc
+      - INFLUXDB_USER=jmeter_hc
+      - INFLUXDB_USER_PASSWORD=jmeter_password_hc
+    volumes:
+      - influxdb-data-jmeter-hc:/var/lib/influxdb
 
   grafana:
     image: grafana/grafana:latest
@@ -32,7 +60,9 @@ services:
     ports:
       - "3777:3000"
     depends_on:
-      - influxdb
+      - influxdb_jmeter
+      - influxdb_jmeter_tcp
+      - influxdb_jmeter_hc
     environment:
       - GF_SECURITY_ADMIN_USER=admin
       - GF_SECURITY_ADMIN_PASSWORD=admin_password
@@ -46,6 +76,7 @@ services:
       - ./grafana/config/grafana.ini:/etc/grafana/grafana.ini
 
 volumes:
-  influxdb-data:
+  influxdb-data-jmeter:
+  influxdb-data-jmeter-tcp:
+  influxdb-data-jmeter-hc:
   grafana-data:
-  node_modules:
