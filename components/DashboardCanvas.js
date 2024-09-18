@@ -17,29 +17,33 @@ export default function Page() {
   const [timeRange, setTimeRange] = useState(defaultRange); // Initialize state with default range
 
   const GRAFANA_DASHBOARD_URL =
-    "http://localhost:3777/d-solo/adu68f1hmk1s0h9/apache-jmeter-dashboard-v3?orgId=1";
+    "http://localhost:3777/d-solo/adu68f1hmk1s0h89/apache-jmeter-dashboard-v5?orgId=1";
 
   const panel = {
     row1: [
       {
+        url: `${GRAFANA_DASHBOARD_URL}&refresh=5s&from=${timeRange[0]}&to=${timeRange[1]}&panelId=51`,
+        id: "activeUser",
+      },
+      {
         url: `${GRAFANA_DASHBOARD_URL}&refresh=5s&from=${timeRange[0]}&to=${timeRange[1]}&panelId=26`,
-        id: "req2",
+        id: "totalReq",
       },
       {
         url: `${GRAFANA_DASHBOARD_URL}&refresh=5s&from=${timeRange[0]}&to=${timeRange[1]}&panelId=28`,
-        id: "req3",
+        id: "failedReq",
       },
       {
         url: `${GRAFANA_DASHBOARD_URL}&refresh=5s&from=${timeRange[0]}&to=${timeRange[1]}&panelId=41`,
-        id: "req4",
+        id: "reqps",
       },
       {
         url: `${GRAFANA_DASHBOARD_URL}&refresh=5s&from=${timeRange[0]}&to=${timeRange[1]}&panelId=58`,
-        id: "req4",
+        id: "avgResp",
       },
       {
         url: `${GRAFANA_DASHBOARD_URL}&refresh=5s&from=${timeRange[0]}&to=${timeRange[1]}&panelId=50`,
-        id: "err5",
+        id: "errps",
       },
     ],
     row2: [
@@ -82,7 +86,7 @@ export default function Page() {
     ],
     row5: [
       {
-        url: `${GRAFANA_DASHBOARD_URL}&refresh=5s&from=${timeRange[0]}&to=${timeRange[1]}&panelId=23`,
+        url: `${GRAFANA_DASHBOARD_URL}&refresh=5s&from=${timeRange[0]}&to=${timeRange[1]}&panelId=65`,
         id: "avgrsp",
       },
     ],
@@ -105,6 +109,82 @@ export default function Page() {
         id: "err3",
       },
     ],
+    row9: [
+      {
+        url: `${GRAFANA_DASHBOARD_URL}&refresh=5s&from=${timeRange[0]}&to=${timeRange[1]}&panelId=60`,
+        id: "tcpUser",
+      },
+      {
+        url: `${GRAFANA_DASHBOARD_URL}&refresh=5s&from=${timeRange[0]}&to=${timeRange[1]}&panelId=61`,
+        id: "tcpReq",
+      },
+      {
+        url: `${GRAFANA_DASHBOARD_URL}&refresh=5s&from=${timeRange[0]}&to=${timeRange[1]}&panelId=89`,
+        id: "reqpsTCP",
+      },
+      {
+        url: `${GRAFANA_DASHBOARD_URL}&refresh=5s&from=${timeRange[0]}&to=${timeRange[1]}&panelId=90`,
+        id: "byteTCP",
+      },
+    ],
+    row10: [
+      {
+        url: `${GRAFANA_DASHBOARD_URL}&refresh=5s&from=${timeRange[0]}&to=${timeRange[1]}&panelId=91`,
+        id: "tcpReqps",
+      },
+      {
+        url: `${GRAFANA_DASHBOARD_URL}&refresh=5s&from=${timeRange[0]}&to=${timeRange[1]}&panelId=92`,
+        id: "tcpSentByte",
+      },
+    ],
+    row11: [
+      {
+        url: `${GRAFANA_DASHBOARD_URL}&refresh=5s&from=${timeRange[0]}&to=${timeRange[1]}&panelId=93`,
+        id: "tcpHit",
+      },
+      {
+        url: `${GRAFANA_DASHBOARD_URL}&refresh=5s&from=${timeRange[0]}&to=${timeRange[1]}&panelId=62`,
+        id: "tcpThroughput",
+      },
+    ],
+    row12: [
+      {
+        url: `${GRAFANA_DASHBOARD_URL}&refresh=5s&from=${timeRange[0]}&to=${timeRange[1]}&panelId=95`,
+        id: "tcpInfops",
+      },
+      {
+        url: `${GRAFANA_DASHBOARD_URL}&refresh=5s&from=${timeRange[0]}&to=${timeRange[1]}&panelId=66`,
+        id: "tcpInfoDetail",
+      },
+    ],
+    row13: [
+      {
+        url: `${GRAFANA_DASHBOARD_URL}&refresh=5s&from=${timeRange[0]}&to=${timeRange[1]}&panelId=68`,
+        id: "hcUser",
+      },
+      {
+        url: `${GRAFANA_DASHBOARD_URL}&refresh=5s&from=${timeRange[0]}&to=${timeRange[1]}&panelId=72`,
+        id: "hcAvg",
+      },
+      {
+        url: `${GRAFANA_DASHBOARD_URL}&refresh=5s&from=${timeRange[0]}&to=${timeRange[1]}&panelId=79`,
+        id: "hcError",
+      },
+    ],
+    row14: [
+      {
+        url: `${GRAFANA_DASHBOARD_URL}&refresh=5s&from=${timeRange[0]}&to=${timeRange[1]}&panelId=86`,
+        id: "hcResp",
+      },
+      {
+        url: `${GRAFANA_DASHBOARD_URL}&refresh=5s&from=${timeRange[0]}&to=${timeRange[1]}&panelId=74`,
+        id: "hcErrps",
+      },
+      {
+        url: `${GRAFANA_DASHBOARD_URL}&refresh=5s&from=${timeRange[0]}&to=${timeRange[1]}&panelId=94`,
+        id: "hcErrInfo",
+      },
+    ],
   };
 
   const handleApplyTimeRange = (unixRange) => {
@@ -121,7 +201,7 @@ export default function Page() {
           </div>
 
           <div className="grid grid-flow-row-dense gap-3 grid-flow-cols">
-            <div className="grid gap-3 lg:grid-cols-5 md:grid-cols-2">
+            <div className="grid gap-3 lg:grid-cols-6 md:grid-cols-2">
               {panel.row1.map(({ url, id }) => (
                 <MyIframe
                   key={id}
@@ -181,7 +261,7 @@ export default function Page() {
 
           <div className="relative flex justify-end place-items-center before:absolute before:h-[600px] before:w-full sm:before:w-[960px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full sm:after:w-[480px] after:translate-x-1/3 after:bg-gradient-conic after:from-orange-200 after:via-red-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-red-600 before:dark:opacity-10 after:dark:from-red-500 after:dark:via-[#E64A51] after:dark:opacity-40 before:lg:h-[360px] z-[-1]] after:dark:opacity-40 before:lg:h-[360px] z-[-1]"></div>
           <div className="flex flex-col gap-2">
-            <h1 className={`text-xl font-bold text-navy`}>Error</h1>
+            <h1 className={`text-2xl font-bold text-navy`}>Error</h1>
             <div className="grid grid-flow-row-dense gap-3 grid-flow-cols">
               <div className="grid gap-3 auto-cols-auto">
                 {panel.row6.map(({ url, id }) => (
@@ -215,6 +295,88 @@ export default function Page() {
                     id={id}
                     width="100%"
                     height="300"
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-2 mt-4">
+            <h1 className={`text-2xl font-bold text-navy`}>TCP</h1>
+            <div className="grid grid-flow-row-dense gap-3 grid-flow-cols">
+              <div className="grid gap-3 lg:grid-cols-4">
+                {panel.row9.map(({ url, id }) => (
+                  <MyIframe
+                    key={id}
+                    src={url}
+                    id={id}
+                    width="100%"
+                    height="180"
+                  />
+                ))}
+              </div>
+
+              <div className="grid gap-3 lg:grid-cols-2">
+                {panel.row10.map(({ url, id }) => (
+                  <MyIframe
+                    key={id}
+                    src={url}
+                    id={id}
+                    width="100%"
+                    height="300"
+                  />
+                ))}
+              </div>
+
+              <div className="grid gap-3 lg:grid-cols-2">
+                {panel.row11.map(({ url, id }) => (
+                  <MyIframe
+                    key={id}
+                    src={url}
+                    id={id}
+                    width="100%"
+                    height="300"
+                  />
+                ))}
+              </div>
+
+              <div className="grid gap-3 auto-cols-auto">
+                {panel.row12.map(({ url, id }) => (
+                  <MyIframe
+                    key={id}
+                    src={url}
+                    id={id}
+                    width="100%"
+                    height="300"
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-2 mt-4">
+            <h1 className={`text-2xl font-bold text-navy`}>Health Check</h1>
+            <div className="grid grid-flow-row-dense gap-3 grid-flow-cols">
+              <div className="grid gap-3 lg:grid-cols-3">
+                {panel.row13.map(({ url, id }) => (
+                  <MyIframe
+                    key={id}
+                    src={url}
+                    id={id}
+                    width="100%"
+                    height="200"
+                  />
+                ))}
+              </div>
+
+              <div className="grid gap-3 auto-cols-auto">
+                {panel.row14.map(({ url, id }) => (
+                  <MyIframe
+                    key={id}
+                    src={url}
+                    id={id}
+                    width="100%"
+                    height="360"
                   />
                 ))}
               </div>
