@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import dynamic from "next/dynamic";
 import moment from "moment";
 import MyIframe from "./MyIframe";
+import { DownOutlined, CaretDownOutlined } from "@ant-design/icons";
 const QuickRangesDropdown = dynamic(() => import("./QuickRangesDropdown"), {
   ssr: false,
 });
@@ -15,6 +16,12 @@ export default function Page() {
   ];
 
   const [timeRange, setTimeRange] = useState(defaultRange); // Initialize state with default range
+
+  // Visibility state for sections
+  const [showSummary, setShowSummary] = useState(true);
+  const [showError, setShowError] = useState(true);
+  const [showTCP, setShowTCP] = useState(true);
+  const [showHealthCheck, setShowHealthCheck] = useState(true);
 
   const GRAFANA_DASHBOARD_URL =
     "http://localhost:3777/d-solo/adu68f1hmk1s0h89/apache-jmeter-dashboard-v5?orgId=1";
@@ -195,73 +202,68 @@ export default function Page() {
     <>
       <main className="flex flex-col items-center justify-between w-full h-screen px-0 py-14">
         <div className="flex flex-col gap-3 px-2 py-4 pb-8">
+          {/* Summary Section */}
           <div className="flex flex-row items-center justify-between">
-            <h1 className={`text-3xl font-bold text-navy`}>Summary</h1>
+            <div className="flex flex-row items-center gap-1 justify-items-center">
+              <h1 className={`text-3xl font-bold text-navy`}>Summary</h1>
+              <button
+                className="mt-1 text-md"
+                onClick={() => setShowSummary(!showSummary)}
+              >
+                {showSummary ? <DownOutlined /> : <DownOutlined />}
+              </button>
+            </div>
             <QuickRangesDropdown onApply={handleApplyTimeRange} />
           </div>
+          {showSummary && (
+            <div className="grid grid-flow-row-dense gap-3 grid-flow-cols">
+              <div className="grid gap-3 lg:grid-cols-6 md:grid-cols-2">
+                {panel.row1.map(({ url, id }) => (
+                  <MyIframe
+                    key={id}
+                    src={url}
+                    id={id}
+                    width="100%"
+                    height="150"
+                  />
+                ))}
+              </div>
+              <div className="grid gap-3 lg:grid-cols-5 md:grid-cols-2">
+                {panel.row2.map(({ url, id }) => (
+                  <MyIframe
+                    key={id}
+                    src={url}
+                    id={id}
+                    width="100%"
+                    height="200"
+                  />
+                ))}
+              </div>
+              <div className="grid gap-3 auto-cols-auto">
+                {panel.row3.map(({ url, id }) => (
+                  <MyIframe
+                    key={id}
+                    src={url}
+                    id={id}
+                    width="100%"
+                    height="300"
+                  />
+                ))}
+              </div>
+            </div>
+          )}
 
-          <div className="grid grid-flow-row-dense gap-3 grid-flow-cols">
-            <div className="grid gap-3 lg:grid-cols-6 md:grid-cols-2">
-              {panel.row1.map(({ url, id }) => (
-                <MyIframe
-                  key={id}
-                  src={url}
-                  id={id}
-                  width="100%"
-                  height="150"
-                />
-              ))}
-            </div>
-
-            <div className="grid gap-3 lg:grid-cols-5 md:grid-cols-2">
-              {panel.row2.map(({ url, id }) => (
-                <MyIframe
-                  key={id}
-                  src={url}
-                  id={id}
-                  width="100%"
-                  height="200"
-                />
-              ))}
-            </div>
-            <div className="grid gap-3 auto-cols-auto">
-              {panel.row3.map(({ url, id }) => (
-                <MyIframe
-                  key={id}
-                  src={url}
-                  id={id}
-                  width="100%"
-                  height="300"
-                />
-              ))}
-            </div>
-            <div className="grid gap-3 lg:grid-cols-2 md:auto-cols-auto">
-              {panel.row4.map(({ url, id }) => (
-                <MyIframe
-                  key={id}
-                  src={url}
-                  id={id}
-                  width="100%"
-                  height="350"
-                />
-              ))}
-            </div>
-            <div className="grid gap-3 auto-cols-auto">
-              {panel.row5.map(({ url, id }) => (
-                <MyIframe
-                  key={id}
-                  src={url}
-                  id={id}
-                  width="100%"
-                  height="400"
-                />
-              ))}
-            </div>
-          </div>
-
-          <div className="relative flex justify-end place-items-center before:absolute before:h-[600px] before:w-full sm:before:w-[960px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full sm:after:w-[480px] after:translate-x-1/3 after:bg-gradient-conic after:from-orange-200 after:via-red-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-red-600 before:dark:opacity-10 after:dark:from-red-500 after:dark:via-[#E64A51] after:dark:opacity-40 before:lg:h-[360px] z-[-1]] after:dark:opacity-40 before:lg:h-[360px] z-[-1]"></div>
-          <div className="flex flex-col gap-2">
+          {/* Error Section */}
+          <div className="flex flex-row items-center justify-between mt-4">
             <h1 className={`text-2xl font-bold text-navy`}>Error</h1>
+            <button
+              className="ml-4 text-sm text-blue-600"
+              onClick={() => setShowError(!showError)}
+            >
+              {showError ? "Hide" : "Show"} Error
+            </button>
+          </div>
+          {showError && (
             <div className="grid grid-flow-row-dense gap-3 grid-flow-cols">
               <div className="grid gap-3 auto-cols-auto">
                 {panel.row6.map(({ url, id }) => (
@@ -274,7 +276,6 @@ export default function Page() {
                   />
                 ))}
               </div>
-
               <div className="grid gap-3 auto-cols-auto">
                 {panel.row7.map(({ url, id }) => (
                   <MyIframe
@@ -286,7 +287,6 @@ export default function Page() {
                   />
                 ))}
               </div>
-
               <div className="grid gap-3 auto-cols-auto">
                 {panel.row8.map(({ url, id }) => (
                   <MyIframe
@@ -299,10 +299,19 @@ export default function Page() {
                 ))}
               </div>
             </div>
-          </div>
+          )}
 
-          <div className="flex flex-col gap-2 mt-4">
+          {/* TCP Section */}
+          <div className="flex flex-row items-center justify-between mt-4">
             <h1 className={`text-2xl font-bold text-navy`}>TCP</h1>
+            <button
+              className="ml-4 text-sm text-blue-600"
+              onClick={() => setShowTCP(!showTCP)}
+            >
+              {showTCP ? "Hide" : "Show"} TCP
+            </button>
+          </div>
+          {showTCP && (
             <div className="grid grid-flow-row-dense gap-3 grid-flow-cols">
               <div className="grid gap-3 lg:grid-cols-4">
                 {panel.row9.map(({ url, id }) => (
@@ -315,7 +324,6 @@ export default function Page() {
                   />
                 ))}
               </div>
-
               <div className="grid gap-3 lg:grid-cols-2">
                 {panel.row10.map(({ url, id }) => (
                   <MyIframe
@@ -327,7 +335,6 @@ export default function Page() {
                   />
                 ))}
               </div>
-
               <div className="grid gap-3 lg:grid-cols-2">
                 {panel.row11.map(({ url, id }) => (
                   <MyIframe
@@ -339,7 +346,6 @@ export default function Page() {
                   />
                 ))}
               </div>
-
               <div className="grid gap-3 auto-cols-auto">
                 {panel.row12.map(({ url, id }) => (
                   <MyIframe
@@ -352,10 +358,19 @@ export default function Page() {
                 ))}
               </div>
             </div>
-          </div>
+          )}
 
-          <div className="flex flex-col gap-2 mt-4">
+          {/* Health Check Section */}
+          <div className="flex flex-row items-center justify-between mt-4">
             <h1 className={`text-2xl font-bold text-navy`}>Health Check</h1>
+            <button
+              className="ml-4 text-sm text-blue-600"
+              onClick={() => setShowHealthCheck(!showHealthCheck)}
+            >
+              {showHealthCheck ? "Hide" : "Show"} Health Check
+            </button>
+          </div>
+          {showHealthCheck && (
             <div className="grid grid-flow-row-dense gap-3 grid-flow-cols">
               <div className="grid gap-3 lg:grid-cols-3">
                 {panel.row13.map(({ url, id }) => (
@@ -368,7 +383,6 @@ export default function Page() {
                   />
                 ))}
               </div>
-
               <div className="grid gap-3 auto-cols-auto">
                 {panel.row14.map(({ url, id }) => (
                   <MyIframe
@@ -381,7 +395,7 @@ export default function Page() {
                 ))}
               </div>
             </div>
-          </div>
+          )}
         </div>
       </main>
     </>
