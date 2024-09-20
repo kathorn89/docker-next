@@ -1,32 +1,36 @@
 import MyIframe from "../../components/MyIframe";
 import Header from "../../components/Header";
-import { SyncOutlined } from "@ant-design/icons";
+import ToggleSection from "../../components/ToggleSection";
 
 export default function Page() {
   const GRAFANA_DASHBOARD_URL =
-    "http://54.179.170.42:3777/d-solo/adu68f1hmk1s0h9/apache-jmeter-dashboard-v3?orgId=1";
+    "http://localhost:3777/d-solo/adu68f1hmk1s0h89/apache-jmeter-dashboard-v5?orgId=1";
 
   const panel = {
     row1: [
       {
+        url: `${GRAFANA_DASHBOARD_URL}&refresh=5s&from=now-1h&to=now&panelId=51`,
+        id: "activeUser",
+      },
+      {
         url: `${GRAFANA_DASHBOARD_URL}&refresh=5s&from=now-1h&to=now&panelId=26`,
-        id: "req2",
+        id: "totalReq",
       },
       {
         url: `${GRAFANA_DASHBOARD_URL}&refresh=5s&from=now-1h&to=now&panelId=28`,
-        id: "req3",
+        id: "failedReq",
       },
       {
         url: `${GRAFANA_DASHBOARD_URL}&refresh=5s&from=now-1h&to=now&panelId=41`,
-        id: "req4",
+        id: "reqps",
       },
       {
         url: `${GRAFANA_DASHBOARD_URL}&refresh=5s&from=now-1h&to=now&panelId=58`,
-        id: "req4",
+        id: "avgResp",
       },
       {
         url: `${GRAFANA_DASHBOARD_URL}&refresh=5s&from=now-1h&to=now&panelId=50`,
-        id: "err5",
+        id: "errps",
       },
     ],
     row2: [
@@ -69,7 +73,7 @@ export default function Page() {
     ],
     row5: [
       {
-        url: `${GRAFANA_DASHBOARD_URL}&refresh=5s&from=now-1h&to=now&panelId=23`,
+        url: `${GRAFANA_DASHBOARD_URL}&refresh=5s&from=now-1h&to=now&panelId=65`,
         id: "avgrsp",
       },
     ],
@@ -174,51 +178,69 @@ export default function Page() {
     <>
       <Header />
       <main className="flex flex-col items-center justify-between w-full h-screen px-6 py-14">
-        <div className="flex flex-col gap-3 px-2 py-4 pb-8">
-          <div className="flex flex-row items-center justify-between">
-            <h1 className={`text-3xl font-bold text-navy`}>Summary</h1>
-            <SyncOutlined style={{ fontSize: "16px", color: "#E64A51" }} spin />
-          </div>
-
-          <div className="grid grid-flow-row-dense gap-3 grid-flow-cols">
-            <div className="grid grid-cols-5 gap-3">
-              {panel.row1.map(({ url, id }) => (
-                <MyIframe
-                  key={id}
-                  src={url}
-                  id={id}
-                  width="100%"
-                  height="150"
-                />
-              ))}
-            </div>
-          </div>
-          <div className="grid grid-cols-5 gap-3">
-            {panel.row2.map(({ url, id }) => (
-              <MyIframe key={id} src={url} id={id} width="100%" height="200" />
-            ))}
-          </div>
-          <div className="grid grid-cols-1 gap-3">
-            {panel.row3.map(({ url, id }) => (
-              <MyIframe key={id} src={url} id={id} width="100%" height="300" />
-            ))}
-          </div>
-
-          <div className="grid grid-cols-2 gap-3">
-            {panel.row4.map(({ url, id }) => (
-              <MyIframe key={id} src={url} id={id} width="100%" height="350" />
-            ))}
-          </div>
-          <div className="grid gap-3 auto-cols-auto">
-            {panel.row5.map(({ url, id }) => (
-              <MyIframe key={id} src={url} id={id} width="100%" height="400" />
-            ))}
-          </div>
-
-          <div className="relative flex justify-end place-items-center before:absolute before:h-[600px] before:w-full sm:before:w-[960px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full sm:after:w-[480px] after:translate-x-1/3 after:bg-gradient-conic after:from-orange-200 after:via-red-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-red-600 before:dark:opacity-10 after:dark:from-red-500 after:dark:via-[#E64A51] after:dark:opacity-40 before:lg:h-[360px] z-[-1]] after:dark:opacity-40 before:lg:h-[360px] z-[-1]"></div>
-          <div className="flex flex-col gap-2">
-            <h1 className={`text-2xl font-bold text-navy`}>Error</h1>
+        <div className="flex flex-col gap-3 py-4 pb-8">
+          <ToggleSection title="HTTPS">
             <div className="grid grid-flow-row-dense gap-3 grid-flow-cols">
+              <div className="grid grid-cols-6 gap-3">
+                {panel.row1.map(({ url, id }) => (
+                  <MyIframe
+                    key={id}
+                    src={url}
+                    id={id}
+                    width="100%"
+                    height="150"
+                  />
+                ))}
+              </div>
+
+              <div className="grid grid-cols-5 gap-3">
+                {panel.row2.map(({ url, id }) => (
+                  <MyIframe
+                    key={id}
+                    src={url}
+                    id={id}
+                    width="100%"
+                    height="200"
+                  />
+                ))}
+              </div>
+
+              <div className="grid grid-cols-1 gap-3">
+                {panel.row3.map(({ url, id }) => (
+                  <MyIframe
+                    key={id}
+                    src={url}
+                    id={id}
+                    width="100%"
+                    height="300"
+                  />
+                ))}
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                {panel.row4.map(({ url, id }) => (
+                  <MyIframe
+                    key={id}
+                    src={url}
+                    id={id}
+                    width="100%"
+                    height="350"
+                  />
+                ))}
+              </div>
+
+              <div className="grid gap-3 auto-cols-auto">
+                {panel.row5.map(({ url, id }) => (
+                  <MyIframe
+                    key={id}
+                    src={url}
+                    id={id}
+                    width="100%"
+                    height="400"
+                  />
+                ))}
+              </div>
+
               <div className="grid gap-3 auto-cols-auto">
                 {panel.row6.map(({ url, id }) => (
                   <MyIframe
@@ -242,6 +264,7 @@ export default function Page() {
                   />
                 ))}
               </div>
+
               <div className="grid grid-cols-1 gap-3">
                 {panel.row8.map(({ url, id }) => (
                   <MyIframe
@@ -254,88 +277,90 @@ export default function Page() {
                 ))}
               </div>
             </div>
+          </ToggleSection>
+
+          <div className="flex flex-col gap-2 mt-4">
+            <ToggleSection title="TCP">
+              <div className="grid grid-flow-row-dense gap-3 grid-flow-cols">
+                <div className="grid gap-3 lg:grid-cols-4">
+                  {panel.row9.map(({ url, id }) => (
+                    <MyIframe
+                      key={id}
+                      src={url}
+                      id={id}
+                      width="100%"
+                      height="180"
+                    />
+                  ))}
+                </div>
+
+                <div className="grid gap-3 lg:grid-cols-2">
+                  {panel.row10.map(({ url, id }) => (
+                    <MyIframe
+                      key={id}
+                      src={url}
+                      id={id}
+                      width="100%"
+                      height="300"
+                    />
+                  ))}
+                </div>
+
+                <div className="grid gap-3 lg:grid-cols-2">
+                  {panel.row11.map(({ url, id }) => (
+                    <MyIframe
+                      key={id}
+                      src={url}
+                      id={id}
+                      width="100%"
+                      height="300"
+                    />
+                  ))}
+                </div>
+
+                <div className="grid gap-3 auto-cols-auto">
+                  {panel.row12.map(({ url, id }) => (
+                    <MyIframe
+                      key={id}
+                      src={url}
+                      id={id}
+                      width="100%"
+                      height="300"
+                    />
+                  ))}
+                </div>
+              </div>
+            </ToggleSection>
           </div>
 
           <div className="flex flex-col gap-2 mt-4">
-            <h1 className={`text-2xl font-bold text-navy`}>TCP</h1>
-            <div className="grid grid-flow-row-dense gap-3 grid-flow-cols">
-              <div className="grid gap-3 lg:grid-cols-4">
-                {panel.row9.map(({ url, id }) => (
-                  <MyIframe
-                    key={id}
-                    src={url}
-                    id={id}
-                    width="100%"
-                    height="180"
-                  />
-                ))}
-              </div>
+            <ToggleSection title="Health Check">
+              <div className="grid grid-flow-row-dense gap-3 grid-flow-cols">
+                <div className="grid gap-3 lg:grid-cols-3">
+                  {panel.row13.map(({ url, id }) => (
+                    <MyIframe
+                      key={id}
+                      src={url}
+                      id={id}
+                      width="100%"
+                      height="200"
+                    />
+                  ))}
+                </div>
 
-              <div className="grid gap-3 lg:grid-cols-2">
-                {panel.row10.map(({ url, id }) => (
-                  <MyIframe
-                    key={id}
-                    src={url}
-                    id={id}
-                    width="100%"
-                    height="300"
-                  />
-                ))}
+                <div className="grid gap-3 auto-cols-auto">
+                  {panel.row14.map(({ url, id }) => (
+                    <MyIframe
+                      key={id}
+                      src={url}
+                      id={id}
+                      width="100%"
+                      height="360"
+                    />
+                  ))}
+                </div>
               </div>
-
-              <div className="grid gap-3 lg:grid-cols-2">
-                {panel.row11.map(({ url, id }) => (
-                  <MyIframe
-                    key={id}
-                    src={url}
-                    id={id}
-                    width="100%"
-                    height="300"
-                  />
-                ))}
-              </div>
-
-              <div className="grid gap-3 auto-cols-auto">
-                {panel.row12.map(({ url, id }) => (
-                  <MyIframe
-                    key={id}
-                    src={url}
-                    id={id}
-                    width="100%"
-                    height="300"
-                  />
-                ))}
-              </div>
-            </div>
-          </div>
-
-          <div className="flex flex-col gap-2 mt-4">
-            <h1 className={`text-2xl font-bold text-navy`}>Health Check</h1>
-            <div className="grid grid-flow-row-dense gap-3 grid-flow-cols">
-              <div className="grid gap-3 lg:grid-cols-3">
-                {panel.row13.map(({ url, id }) => (
-                  <MyIframe
-                    key={id}
-                    src={url}
-                    id={id}
-                    width="100%"
-                    height="200"
-                  />
-                ))}
-              </div>
-
-              <div className="grid gap-3 auto-cols-auto">
-                {panel.row14.map(({ url, id }) => (
-                  <MyIframe
-                    key={id}
-                    src={url}
-                    id={id}
-                    width="100%"
-                    height="360"
-                  />
-                ))}
-              </div>
-            </div>
+            </ToggleSection>
           </div>
         </div>
       </main>

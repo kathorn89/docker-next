@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import dynamic from "next/dynamic";
 import moment from "moment";
 import MyIframe from "./MyIframe";
-import { DownOutlined, CaretDownOutlined } from "@ant-design/icons";
+import { DownOutlined } from "@ant-design/icons";
 const QuickRangesDropdown = dynamic(() => import("./QuickRangesDropdown"), {
   ssr: false,
 });
@@ -19,7 +19,6 @@ export default function Page() {
 
   // Visibility state for sections
   const [showSummary, setShowSummary] = useState(true);
-  const [showError, setShowError] = useState(true);
   const [showTCP, setShowTCP] = useState(true);
   const [showHealthCheck, setShowHealthCheck] = useState(true);
 
@@ -205,7 +204,7 @@ export default function Page() {
           {/* Summary Section */}
           <div className="flex flex-row items-center justify-between">
             <div className="flex flex-row items-center gap-1 justify-items-center">
-              <h1 className={`text-3xl font-bold text-navy`}>Summary</h1>
+              <h1 className={`text-3xl font-bold text-navy`}>HTTPS</h1>
               <button
                 className="mt-1 text-md"
                 onClick={() => setShowSummary(!showSummary)}
@@ -250,66 +249,58 @@ export default function Page() {
                   />
                 ))}
               </div>
-            </div>
-          )}
 
-          {/* Error Section */}
-          <div className="flex flex-row items-center justify-between mt-4">
-            <h1 className={`text-2xl font-bold text-navy`}>Error</h1>
-            <button
-              className="ml-4 text-sm text-blue-600"
-              onClick={() => setShowError(!showError)}
-            >
-              {showError ? "Hide" : "Show"} Error
-            </button>
-          </div>
-          {showError && (
-            <div className="grid grid-flow-row-dense gap-3 grid-flow-cols">
-              <div className="grid gap-3 auto-cols-auto">
-                {panel.row6.map(({ url, id }) => (
-                  <MyIframe
-                    key={id}
-                    src={url}
-                    id={id}
-                    width="100%"
-                    height="300"
-                  />
-                ))}
-              </div>
-              <div className="grid gap-3 auto-cols-auto">
-                {panel.row7.map(({ url, id }) => (
-                  <MyIframe
-                    key={id}
-                    src={url}
-                    id={id}
-                    width="100%"
-                    height="200"
-                  />
-                ))}
-              </div>
-              <div className="grid gap-3 auto-cols-auto">
-                {panel.row8.map(({ url, id }) => (
-                  <MyIframe
-                    key={id}
-                    src={url}
-                    id={id}
-                    width="100%"
-                    height="300"
-                  />
-                ))}
+              {/* Error Section */}
+
+              <div className="grid grid-flow-row-dense gap-3 grid-flow-cols">
+                <div className="grid gap-3 auto-cols-auto">
+                  {panel.row6.map(({ url, id }) => (
+                    <MyIframe
+                      key={id}
+                      src={url}
+                      id={id}
+                      width="100%"
+                      height="300"
+                    />
+                  ))}
+                </div>
+                <div className="grid gap-3 auto-cols-auto">
+                  {panel.row7.map(({ url, id }) => (
+                    <MyIframe
+                      key={id}
+                      src={url}
+                      id={id}
+                      width="100%"
+                      height="200"
+                    />
+                  ))}
+                </div>
+                <div className="grid gap-3 auto-cols-auto">
+                  {panel.row8.map(({ url, id }) => (
+                    <MyIframe
+                      key={id}
+                      src={url}
+                      id={id}
+                      width="100%"
+                      height="300"
+                    />
+                  ))}
+                </div>
               </div>
             </div>
           )}
 
           {/* TCP Section */}
           <div className="flex flex-row items-center justify-between mt-4">
-            <h1 className={`text-2xl font-bold text-navy`}>TCP</h1>
-            <button
-              className="ml-4 text-sm text-blue-600"
-              onClick={() => setShowTCP(!showTCP)}
-            >
-              {showTCP ? "Hide" : "Show"} TCP
-            </button>
+            <div className="flex flex-row items-center gap-1 justify-items-center">
+              <h1 className={`text-3xl font-bold text-navy`}>TCP</h1>
+              <button
+                className="mt-1 text-md"
+                onClick={() => setShowTCP(!showTCP)}
+              >
+                {showTCP ? <DownOutlined /> : <DownOutlined />}
+              </button>
+            </div>
           </div>
           {showTCP && (
             <div className="grid grid-flow-row-dense gap-3 grid-flow-cols">
@@ -362,13 +353,15 @@ export default function Page() {
 
           {/* Health Check Section */}
           <div className="flex flex-row items-center justify-between mt-4">
-            <h1 className={`text-2xl font-bold text-navy`}>Health Check</h1>
-            <button
-              className="ml-4 text-sm text-blue-600"
-              onClick={() => setShowHealthCheck(!showHealthCheck)}
-            >
-              {showHealthCheck ? "Hide" : "Show"} Health Check
-            </button>
+            <div className="flex flex-row items-center gap-1 justify-items-center">
+              <h1 className={`text-3xl font-bold text-navy`}>Health Check</h1>
+              <button
+                className="mt-1 text-md"
+                onClick={() => setShowHealthCheck(!showHealthCheck)}
+              >
+                {showHealthCheck ? <DownOutlined /> : <DownOutlined />}
+              </button>
+            </div>
           </div>
           {showHealthCheck && (
             <div className="grid grid-flow-row-dense gap-3 grid-flow-cols">
