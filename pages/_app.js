@@ -1,8 +1,16 @@
 import "../app/globals.css";
+import { Figtree } from "next/font/google";
+
+const figtree = Figtree({ subsets: ["latin"] });
 
 function MyApp({ Component, pageProps }) {
   return (
     <div className="flex">
+      <style jsx global>{`
+        html {
+          font-family: ${figtree.style.fontFamily};
+        }
+      `}</style>
       <Sidebar />
       <Header />
       <div className="w-full overflow-x-auto">
