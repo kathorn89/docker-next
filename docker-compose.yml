@@ -1,17 +1,4 @@
-# version: '3.8'
-
 services:
-  app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: docker-next
-    ports:
-      - "3778:3000"
-    volumes:
-      - .:/app
-      - /app/node_modules
-
   influxdb_jmeter:
     image: influxdb:1.8.10
     container_name: influxdb_jmeter
@@ -74,6 +61,21 @@ services:
       - ./grafana/provisioning:/etc/grafana/provisioning
       - ./grafana/dashboards:/var/lib/grafana/dashboards
       - ./grafana/config/grafana.ini:/etc/grafana/grafana.ini
+
+  nextjs_app:
+    image: node:18-alpine
+    container_name: nextjs_app
+    ports:
+      - "3776:3000"
+    volumes:
+      - .:/app
+    working_dir: /app
+    command: sh -c "npm install && npm run dev"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:3776
+    depends_on:
+      - influxdb_jmeter
+      - grafana
 
 volumes:
   influxdb-data-jmeter:

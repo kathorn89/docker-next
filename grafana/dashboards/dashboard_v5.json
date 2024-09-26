@@ -25,7 +25,6 @@
   "fiscalYearStartMonth": 0,
   "gnetId": 5496,
   "graphTooltip": 0,
-  "id": 5,
   "links": [],
   "panels": [
     {
@@ -102,7 +101,7 @@
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "10.4.2",
+      "pluginVersion": "11.1.4",
       "targets": [
         {
           "alias": "Threads",
@@ -200,7 +199,7 @@
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "10.4.2",
+      "pluginVersion": "11.1.4",
       "targets": [
         {
           "datasource": {
@@ -301,7 +300,7 @@
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "10.4.2",
+      "pluginVersion": "11.1.4",
       "targets": [
         {
           "datasource": {
@@ -387,7 +386,7 @@
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "10.4.2",
+      "pluginVersion": "11.1.4",
       "targets": [
         {
           "datasource": {
@@ -466,7 +465,7 @@
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "10.4.2",
+      "pluginVersion": "11.1.4",
       "repeatDirection": "h",
       "targets": [
         {
@@ -578,7 +577,7 @@
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "10.4.2",
+      "pluginVersion": "11.1.4",
       "targets": [
         {
           "alias": "$tag_responseCode",
@@ -678,7 +677,7 @@
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "10.4.2",
+      "pluginVersion": "11.1.4",
       "targets": [
         {
           "datasource": {
@@ -768,7 +767,7 @@
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "10.4.2",
+      "pluginVersion": "11.1.4",
       "targets": [
         {
           "datasource": {
@@ -830,7 +829,7 @@
         "showThresholdMarkers": true,
         "sizing": "auto"
       },
-      "pluginVersion": "10.4.2",
+      "pluginVersion": "11.1.4",
       "targets": [
         {
           "datasource": {
@@ -913,7 +912,7 @@
         "showThresholdMarkers": true,
         "sizing": "auto"
       },
-      "pluginVersion": "10.4.2",
+      "pluginVersion": "11.1.4",
       "targets": [
         {
           "datasource": {
@@ -1014,7 +1013,7 @@
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "10.4.2",
+      "pluginVersion": "11.1.4",
       "targets": [
         {
           "datasource": {
@@ -2642,7 +2641,7 @@
         },
         "showHeader": true
       },
-      "pluginVersion": "10.4.2",
+      "pluginVersion": "11.1.4",
       "targets": [
         {
           "alias": "$tag_transaction",
@@ -2773,7 +2772,7 @@
         },
         "showHeader": true
       },
-      "pluginVersion": "10.4.2",
+      "pluginVersion": "11.1.4",
       "targets": [
         {
           "alias": "$tag_responseCode",
@@ -2909,7 +2908,7 @@
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "10.4.2",
+      "pluginVersion": "11.1.4",
       "targets": [
         {
           "alias": "Threads",
@@ -3008,7 +3007,7 @@
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "10.4.2",
+      "pluginVersion": "11.1.4",
       "targets": [
         {
           "datasource": {
@@ -3094,7 +3093,7 @@
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "10.4.2",
+      "pluginVersion": "11.1.4",
       "targets": [
         {
           "datasource": {
@@ -3158,7 +3157,7 @@
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "10.4.2",
+      "pluginVersion": "11.1.4",
       "targets": [
         {
           "datasource": {
@@ -3844,7 +3843,7 @@
           ],
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT sum(\"count\") AS \"Count\"\nFROM \"$measurement_name\"\nWHERE (\"application\" =~ /^$application$/ AND \"responseCode\" !~ /^$/)\nAND $timeFilter\nGROUP BY time($__interval), \"responseCode\"\nfill(null)\n",
+          "query": "SELECT sum(\"count\") AS \"Count\" FROM \"$measurement_name\" WHERE (\"application\" =~ /^$application$/ AND \"responseCode\" !~ /^$/ AND \"responseMessage\" !~  /Connect timed out/) AND $timeFilter GROUP BY time($__interval), \"responseCode\" fill(null)",
           "rawQuery": true,
           "refId": "A",
           "resultFormat": "time_series",
@@ -3938,7 +3937,7 @@
         },
         "showHeader": true
       },
-      "pluginVersion": "10.4.2",
+      "pluginVersion": "11.1.4",
       "targets": [
         {
           "alias": "$tag_responseCode",
@@ -3956,7 +3955,7 @@
           "measurement": "jmeter",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT sum(\"count\") FROM \"$measurement_name\" WHERE (\"application\" =~ /^$application$/ AND \"responseCode\" !~ /^$/) AND $timeFilter GROUP BY \"responseCode\",\"responseMessage\"",
+          "query": "SELECT sum(\"count\") FROM \"$measurement_name\" WHERE (\"application\" =~ /^$application$/ AND \"responseCode\" !~ /^$/ AND \"responseMessage\" !~ /Connect timed out/) AND $timeFilter GROUP BY \"responseCode\",\"responseMessage\"",
           "rawQuery": true,
           "refId": "A",
           "resultFormat": "table",
@@ -4061,7 +4060,7 @@
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "10.4.2",
+      "pluginVersion": "11.1.4",
       "targets": [
         {
           "alias": "Threads",
@@ -4167,7 +4166,7 @@
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "10.4.2",
+      "pluginVersion": "11.1.4",
       "repeatDirection": "h",
       "targets": [
         {
@@ -4284,7 +4283,7 @@
         "showThresholdMarkers": true,
         "sizing": "auto"
       },
-      "pluginVersion": "10.4.2",
+      "pluginVersion": "11.1.4",
       "targets": [
         {
           "datasource": {
@@ -4373,8 +4372,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "#FA374A",
-                "value": null
+                "color": "#FA374A"
               },
               {
                 "color": "transparent",
@@ -4525,8 +4523,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "#FA374A",
-                "value": null
+                "color": "#FA374A"
               },
               {
                 "color": "transparent",
@@ -4643,8 +4640,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "#219653",
-                "value": null
+                "color": "#219653"
               },
               {
                 "color": "#FA374A",
@@ -4783,9 +4779,10 @@
       },
       {
         "current": {
+          "isNone": true,
           "selected": false,
-          "text": "application name",
-          "value": "application name"
+          "text": "None",
+          "value": ""
         },
         "datasource": {
           "type": "influxdb",
@@ -4808,9 +4805,10 @@
       },
       {
         "current": {
+          "isNone": true,
           "selected": false,
-          "text": "TCP Sampler",
-          "value": "TCP Sampler"
+          "text": "None",
+          "value": ""
         },
         "datasource": {
           "uid": "$data_source"
