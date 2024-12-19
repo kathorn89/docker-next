@@ -14,6 +14,7 @@ import Icon, {
   PieChartFilled,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
+  AmazonCircleFilled,
 } from "@ant-design/icons";
 
 export default function SideNav({ selectedNavbar, collapsed, setCollapsed }) {
@@ -50,6 +51,12 @@ export default function SideNav({ selectedNavbar, collapsed, setCollapsed }) {
       icon: DashboardFilled,
       iconActive: DashboardFilled,
       label: "Realtime",
+    },
+    {
+      path: "/aws",
+      icon: AmazonCircleFilled,
+      iconActive: AmazonCircleFilled,
+      label: "AWScloud",
     },
     {
       path: "/report",
