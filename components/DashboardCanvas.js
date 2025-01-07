@@ -31,6 +31,8 @@ export default function Page() {
         url: `${GRAFANA_DASHBOARD_URL}&refresh=5s&from=${timeRange[0]}&to=${timeRange[1]}&panelId=31`,
         id: "activeUser",
       },
+    ],
+    httpRow2: [
       {
         url: `${GRAFANA_DASHBOARD_URL}&refresh=5s&from=${timeRange[0]}&to=${timeRange[1]}&panelId=26`,
         id: "totalReq",
@@ -40,7 +42,7 @@ export default function Page() {
         id: "failedReq",
       },
     ],
-    httpRow2: [
+    httpRow3: [
       {
         url: `${GRAFANA_DASHBOARD_URL}&refresh=5s&from=${timeRange[0]}&to=${timeRange[1]}&panelId=98`,
         id: "successRate",
@@ -50,7 +52,7 @@ export default function Page() {
         id: "errorRate",
       },
     ],
-    httpRow3: [
+    httpRow4: [
       {
         url: `${GRAFANA_DASHBOARD_URL}&refresh=5s&from=${timeRange[0]}&to=${timeRange[1]}&panelId=37`,
         id: "tSentByte",
@@ -64,7 +66,7 @@ export default function Page() {
         id: "tThroughput",
       },
     ],
-    httpRow4: [
+    httpRow5: [
       {
         url: `${GRAFANA_DASHBOARD_URL}&refresh=5s&from=${timeRange[0]}&to=${timeRange[1]}&panelId=65`,
         id: "avgResp",
@@ -112,6 +114,16 @@ export default function Page() {
     ],
     hcRow2: [
       {
+        url: `${GRAFANA_DASHBOARD_URL}&refresh=5s&from=${timeRange[0]}&to=${timeRange[1]}&panelId=100`,
+        id: "hcTotalReq",
+      },
+      {
+        url: `${GRAFANA_DASHBOARD_URL}&refresh=5s&from=${timeRange[0]}&to=${timeRange[1]}&panelId=99`,
+        id: "hcFailedReq",
+      },
+    ],
+    hcRow3: [
+      {
         url: `${GRAFANA_DASHBOARD_URL}&refresh=5s&from=${timeRange[0]}&to=${timeRange[1]}&panelId=86`,
         id: "hcResp",
       },
@@ -120,7 +132,7 @@ export default function Page() {
         id: "hcThroughput",
       },
     ],
-    hcRow3: [
+    hcRow4: [
       {
         url: `${GRAFANA_DASHBOARD_URL}&refresh=5s&from=${timeRange[0]}&to=${timeRange[1]}&panelId=74`,
         id: "hcErrps",
@@ -161,7 +173,7 @@ export default function Page() {
 
                 {showSummary && (
                   <div className="grid grid-flow-row-dense gap-3 grid-flow-cols">
-                    <div className="grid gap-3 lg:grid-cols-3 md:grid-cols-1">
+                    <div className="grid gap-3 auto-cols-auto">
                       {panel.httpRow1.map(({ url, id }) => (
                         <MyIframe
                           key={id}
@@ -183,7 +195,7 @@ export default function Page() {
                         />
                       ))}
                     </div>
-                    <div className="grid gap-3 lg:grid-cols-3 md:grid-cols-1">
+                    <div className="grid gap-3 lg:grid-cols-2 md:grid-cols-1">
                       {panel.httpRow3.map(({ url, id }) => (
                         <MyIframe
                           key={id}
@@ -194,8 +206,19 @@ export default function Page() {
                         />
                       ))}
                     </div>
-                    <div className="grid gap-3 auto-cols-auto">
+                    <div className="grid gap-3 lg:grid-cols-3 md:grid-cols-1">
                       {panel.httpRow4.map(({ url, id }) => (
+                        <MyIframe
+                          key={id}
+                          src={url}
+                          id={id}
+                          width="100%"
+                          height="200"
+                        />
+                      ))}
+                    </div>
+                    <div className="grid gap-3 auto-cols-auto">
+                      {panel.httpRow5.map(({ url, id }) => (
                         <MyIframe
                           key={id}
                           src={url}
@@ -281,7 +304,7 @@ export default function Page() {
                       />
                     ))}
                   </div>
-                  <div className="grid gap-3 auto-cols-auto">
+                  <div className="grid gap-3 lg:grid-cols-2 md:grid-cols-1">
                     {panel.hcRow2.map(({ url, id }) => (
                       <MyIframe
                         key={id}
@@ -294,6 +317,17 @@ export default function Page() {
                   </div>
                   <div className="grid gap-3 auto-cols-auto">
                     {panel.hcRow3.map(({ url, id }) => (
+                      <MyIframe
+                        key={id}
+                        src={url}
+                        id={id}
+                        width="100%"
+                        height="300"
+                      />
+                    ))}
+                  </div>
+                  <div className="grid gap-3 auto-cols-auto">
+                    {panel.hcRow4.map(({ url, id }) => (
                       <MyIframe
                         key={id}
                         src={url}
