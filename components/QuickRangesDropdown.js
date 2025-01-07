@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Dropdown, Menu, DatePicker, Button, Input } from "antd";
+import { Dropdown, Menu, DatePicker, Button } from "antd";
 import moment from "moment";
 import { DownOutlined, ClockCircleOutlined } from "@ant-design/icons";
 import { Figtree } from "next/font/google";
@@ -94,7 +94,7 @@ const QuickRangesDropdown = ({ onApply }) => {
             key={range.label}
             onClick={() => handleMenuClick(range.label)}
           >
-            <span className={figtree.className}>{range.label}</span>
+            <p className={figtree.className}>{range.label}</p>
           </Menu.Item>
         ))}
 
@@ -127,7 +127,7 @@ const QuickRangesDropdown = ({ onApply }) => {
       >
         <Button>
           <ClockCircleOutlined />
-          <span className={figtree.className}>{selectedLabel}</span>
+          <p className={figtree.className}>{selectedLabel}</p>
           <DownOutlined />
         </Button>
       </Dropdown>
